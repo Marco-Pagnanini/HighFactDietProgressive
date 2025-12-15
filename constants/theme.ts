@@ -10,7 +10,7 @@ import { Platform } from 'react-native';
 
 export const Colors = {
     primaryBlue : '#4A90E2',
-     darkBackground : '#1A1A1A',
+     darkBackground : 'rgb(72,137,173)',
  cardBackground : '#2A2A2A',
  textLight : '#FFFFFF',
  textGray : '#A0A0A0',

@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AddExerciseModal() {
@@ -105,29 +105,6 @@ export default function AddExerciseModal() {
                             multiline
                             numberOfLines={3}
                         />
-                    </View>
-
-                    {/* Image Picker */}
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Immagine</Text>
-                        <TouchableOpacity
-                            style={styles.imagePicker}
-                            onPress={pickImage}
-                        >
-                            {imageUri ? (
-                                <Image
-                                    source={{ uri: imageUri }}
-                                    style={styles.imagePreview}
-                                />
-                            ) : (
-                                <View style={styles.imagePickerContent}>
-                                    <Ionicons name="image-outline" size={40} color="#999" />
-                                    <Text style={styles.imagePickerText}>
-                                        Tocca per selezionare
-                                    </Text>
-                                </View>
-                            )}
-                        </TouchableOpacity>
                     </View>
                 </View>
 

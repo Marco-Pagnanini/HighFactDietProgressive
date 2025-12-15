@@ -6,6 +6,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ToastManager, { Toast } from 'toastify-react-native';
 
 export default function AddSessionModal() {
     const router = useRouter();
@@ -51,14 +52,10 @@ export default function AddSessionModal() {
                 }
             );
 
-            console.log('Session saved:', session);
 
-            Alert.alert('Successo', 'Sessione salvata!', [
-                {
-                    text: 'OK',
-                    onPress: () => router.back(),
-                }
-            ]);
+
+
+            Toast.success('Aggiunto con Successo');
         } catch (error) {
             console.error('Error saving session:', error);
             Alert.alert('Errore', 'Impossibile salvare la sessione');
@@ -140,6 +137,7 @@ export default function AddSessionModal() {
                     />
                 </View>
             </View>
+            <ToastManager />
         </SafeAreaView>
     );
 }

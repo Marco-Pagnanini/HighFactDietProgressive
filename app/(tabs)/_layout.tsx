@@ -1,4 +1,5 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Colors } from '@/constants/theme';
 import { Tabs } from 'expo-router';
 import { SFSymbol } from 'expo-symbols';
 import React from 'react';
@@ -8,8 +9,7 @@ import { StyleSheet, View } from 'react-native';
 const COLORS = {
     active: '#2F2F2F',    // Colore icona attiva (scuro)
     inactive: '#999999',  // Colore icona inattiva (grigio)
-    background: '#FFFFFF',
-    dot: '#FF3B30',       // Colore del puntino rosso
+    background: '#FFFFFF',       // Colore del puntino rosso
 };
 
 export default function TabLayout() {
@@ -20,7 +20,7 @@ export default function TabLayout() {
                 // Nascondiamo il testo sotto le icone
                 tabBarShowLabel: false,
                 // Rimuoviamo il bordo superiore di default
-                tabBarActiveTintColor: COLORS.active,
+                tabBarActiveTintColor: Colors.darkBackground,
                 tabBarInactiveTintColor: COLORS.inactive,
                 // Stile della barra flottante
                 tabBarStyle: styles.tabBar,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         width: 6,
         height: 6,
         borderRadius: 3,
-        backgroundColor: COLORS.dot,
+        backgroundColor: Colors.darkBackground,
         marginTop: 6, // Distanza tra icona e puntino
     },
 });

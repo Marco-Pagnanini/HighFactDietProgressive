@@ -1,4 +1,4 @@
-import { BorderRadius, FontSizes, FontWeights, Spacing } from '@/constants/theme';
+import { BorderRadius, Colors, FontSizes, FontWeights, Spacing } from '@/constants/theme';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         marginRight: Spacing.sm,
     },
     chipSelected: {
-        backgroundColor: '#2F2F2F', // Nero come nel design
+        backgroundColor: Colors.darkBackground, // Nero come nel design
     },
     chipText: {
         fontSize: FontSizes.base,

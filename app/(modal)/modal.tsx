@@ -129,8 +129,8 @@ export default function ExerciseDetailModal() {
                                     backgroundGradientFrom: '#f9f9f9',
                                     backgroundGradientTo: '#ffffff',
                                     decimalPlaces: 0,
-                                    color: (opacity = 1) => `rgba(47, 47, 47, ${opacity})`,
-                                    labelColor: (opacity = 1) => `rgba(47, 47, 47, ${opacity})`,
+                                    color: (opacity = 1) => `rgba(72, 137, 173, ${opacity})`,
+                                    labelColor: (opacity = 1) => `rgba(72, 137, 173, ${opacity})`,
                                     style: {
                                         borderRadius: BorderRadius.md,
                                     },
@@ -177,22 +177,28 @@ export default function ExerciseDetailModal() {
                             <ActivityIndicator size="small" color="#2F2F2F" />
                         </View>
                     ) : sessions.length > 0 ? (
-                        <View style={styles.sessionsContainer}>
-                            {sessions.slice(0, 5).map((session) => (
-                                <View key={session.id} style={styles.sessionCard}>
-                                    <View>
+                        <View style={styles.sessionsScrollContainer}>
+                            <ScrollView
+                                style={styles.sessionsScrollView}
+                                nestedScrollEnabled={true}
+                                showsVerticalScrollIndicator={true}
+                            >
+                                {sessions.map((session) => (
+                                    <View key={session.id} style={styles.sessionCard}>
+                                        <View>
+                                            <Text style={styles.sessionText}>
+                                                Reps: {session.sets}×{session.reps}
+                                            </Text>
+                                            <Text style={styles.sessionDate}>
+                                                {formatDate(session.date)}
+                                            </Text>
+                                        </View>
                                         <Text style={styles.sessionText}>
-                                            Reps: {session.sets}×{session.reps}
-                                        </Text>
-                                        <Text style={styles.sessionDate}>
-                                            {formatDate(session.date)}
+                                            Peso: {session.weight}kg
                                         </Text>
                                     </View>
-                                    <Text style={styles.sessionText}>
-                                        Peso: {session.weight}kg
-                                    </Text>
-                                </View>
-                            ))}
+                                ))}
+                            </ScrollView>
                         </View>
                     ) : (
                         <View style={styles.emptyContainer}>
@@ -225,10 +231,10 @@ export default function ExerciseDetailModal() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#ffffff',
     },
     chartContainer: {
-        backgroundColor: '#F9F9F9',
+        backgroundColor: '#ffffff',
         paddingTop: Spacing.md,
         paddingBottom: Spacing.xl,
         borderBottomLeftRadius: BorderRadius.xl,
@@ -310,9 +316,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat',
         marginBottom: Spacing.md,
     },
-    sessionsContainer: {
-        gap: Spacing.sm,
+    sessionsScrollContainer: {
         marginBottom: Spacing.xl,
+    },
+    sessionsScrollView: {
+        maxHeight: 400, // Altezza fissa per ~5 card (80px per card)
     },
     sessionCard: {
         flexDirection: 'row',
@@ -324,6 +332,7 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderColor: '#E0E0E0',
         backgroundColor: '#fff',
+        marginBottom: Spacing.sm,
     },
     sessionText: {
         fontSize: FontSizes.base,

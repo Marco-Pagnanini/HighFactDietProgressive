@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     primary: {
-        backgroundColor: '#1A1A1A', // Nero come nel design
+        backgroundColor: Colors.darkBackground // Nero come nel design
     },
     secondary: {
         backgroundColor: Colors.darkBackground,
