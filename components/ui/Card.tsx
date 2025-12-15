@@ -1,7 +1,7 @@
 import { BorderRadius, FontSizes, FontWeights, Shadows, Spacing } from '@/constants/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface CardProps {
     name: string;
@@ -14,7 +14,7 @@ interface CardProps {
 
 const Card = ({ name, details, reps, sets, lastWeight, image }: CardProps) => {
     return (
-        <View style={styles.card}>
+        <TouchableOpacity style={styles.card}>
             {/* Immagine di sfondo */}
             <Image
                 source={image}
@@ -45,7 +45,7 @@ const Card = ({ name, details, reps, sets, lastWeight, image }: CardProps) => {
                     )}
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

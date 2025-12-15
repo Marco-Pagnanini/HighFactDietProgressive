@@ -12,7 +12,8 @@ interface ExerciseType {
     reps: number,
     time: string,
     image?: string,
-    sets: string
+    sets: string,
+    category: string,
 }
 
 export default function HomeScreen() {
@@ -42,6 +43,7 @@ export default function HomeScreen() {
             {/* Cards */}
 
             <FlatList
+                horizontal
                 data={exercisesPlaceholder}
                 renderItem={({ item }) => (
                     <Card
@@ -55,19 +57,8 @@ export default function HomeScreen() {
                 )}
                 keyExtractor={(item) => item.name}
                 contentContainerStyle={styles.listContent}
+                showsHorizontalScrollIndicator={false}
             />
-            {/*{exercisesPlaceholder.map((item: any, index: number) => {
-                return (
-                    <Card
-                        key={index}
-                        name={item.name}
-                        details={item.details}
-                        reps={item.reps}
-                        sets={item.sets}
-                        lastWeight={item.lastWeight}
-                        image={item.image} />
-                )
-            })}*/}
 
 
         </SafeAreaView>
@@ -116,6 +107,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
     },
     listContent: {
-        paddingHorizontal: Spacing.md
+        gap: Spacing.md
     }
 });
