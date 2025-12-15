@@ -1,22 +1,37 @@
 import { HelloWave } from '@/components/hello-wave';
-import Card from '@/components/ui/Card';
 import Chips from '@/components/ui/Chips';
+import ExerciseList from '@/components/ui/ExerciseList';
 import { Colors, FontSizes, FontWeights, Spacing } from '@/constants/theme';
-import { exercisesPlaceholder } from '@/data/exercise';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { Exercise } from '@/data/exercise.types';
+import { getExercises } from '@/service/storage.service';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-interface ExerciseType {
-    name: string,
-    details: string,
-    reps: number,
-    time: string,
-    image?: string,
-    sets: string,
-    category: string,
-}
-
 export default function HomeScreen() {
+    const router = useRouter();
+    const [exercises, setExercises] = useState<Exercise[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    // Carica gli esercizi dall'AsyncStorage
+    const loadExercises = async () => {
+        try {
+            setLoading(true);
+            const data = await getExercises();
+            setExercises(data);
+        } catch (error) {
+            console.error('Error loading exercises:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadExercises();
+    }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             {/* Header con titolo e logo */}
@@ -36,31 +51,33 @@ export default function HomeScreen() {
             </View>
 
             {/* Sottotitolo */}
-            <Text style={styles.subtitle}>Explore Exercises</Text>
-            {/* Chips Muscol */}
+            <Text style={styles.subtitle}>Explore the world</Text>
+
+            {/* Search bar con bottone + */}
+            <View style={styles.searchContainer}>
+                <View style={styles.searchBar}>
+                    <Ionicons name="search" size={20} color="#999" />
+                    <Text style={styles.searchPlaceholder}>Search places</Text>
+                </View>
+
+                <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => router.push('/(modal)/addExerciseModal')}
+                >
+                    <Ionicons name="add" size={24} color="#2F2F2F" />
+                </TouchableOpacity>
+            </View>
+
+            {/* Chips per filtrare */}
             <Chips />
 
-            {/* Cards */}
 
-            <FlatList
-                horizontal
-                data={exercisesPlaceholder}
-                renderItem={({ item }) => (
-                    <Card
-                        name={item.name}
-                        details={item.details}
-                        reps={item.reps}
-                        sets={item.sets}
-                        lastWeight={item.lastWeight}
-                        image={item.image}
-                    />
-                )}
-                keyExtractor={(item) => item.name}
-                contentContainerStyle={styles.listContent}
-                showsHorizontalScrollIndicator={false}
+            {/* Lista esercizi */}
+            <ExerciseList
+                exercises={exercises}
+                loading={loading}
+                onRefresh={loadExercises}
             />
-
-
         </SafeAreaView>
     );
 }
@@ -87,7 +104,7 @@ const styles = StyleSheet.create({
         fontSize: 32,
         fontWeight: FontWeights.bold as any,
         color: '#2F2F2F',
-        fontFamily: 'Montserrat', // Montserrat-Bold se disponibile
+        fontFamily: 'Montserrat',
     },
     logoContainer: {
         width: 40,
@@ -96,8 +113,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     logo: {
-        width: 50,
-        height: 50,
+        width: 32,
+        height: 32,
+        tintColor: Colors.primaryBlue,
     },
     subtitle: {
         fontSize: FontSizes.base,
@@ -106,7 +124,32 @@ const styles = StyleSheet.create({
         marginBottom: Spacing.lg,
         fontFamily: 'Roboto',
     },
-    listContent: {
-        gap: Spacing.md
-    }
+    searchContainer: {
+        flexDirection: 'row',
+        gap: Spacing.sm,
+        marginBottom: Spacing.sm,
+    },
+    searchBar: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F5F5F5',
+        borderRadius: 12,
+        paddingHorizontal: Spacing.md,
+        paddingVertical: Spacing.sm + 4,
+        gap: Spacing.sm,
+    },
+    searchPlaceholder: {
+        fontSize: FontSizes.base,
+        color: '#999',
+        fontFamily: 'Roboto',
+    },
+    addButton: {
+        width: 48,
+        height: 48,
+        backgroundColor: '#F5F5F5',
+        borderRadius: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

@@ -36,23 +36,6 @@ export default function TabLayout() {
                     ),
                 }}
             />
-
-            {/* TAB 2: HISTORY / CLOCK */}
-            <Tabs.Screen
-                name="explore" // Assicurati di creare il file history.tsx
-                options={{
-                    headerShown: false,
-                    tabBarIcon: ({ color, focused }) => (
-                        <TabIcon name='chart.bar' color={color} focused={focused} />
-                    ),
-                }}
-            />
-            <Tabs.Screen
-                name='modal'
-                options={{
-                    href: null
-                }}
-            />
         </Tabs>
     );
 }

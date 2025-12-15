@@ -1,23 +1,44 @@
-import { BorderRadius, FontSizes, FontWeights, Shadows, Spacing } from '@/constants/theme';
-import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
-import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { BorderRadius, FontSizes, FontWeights, Shadows, Spacing } from '@/constants/theme'
+import { LinearGradient } from 'expo-linear-gradient'
+import { useRouter } from 'expo-router'
+import React from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 interface CardProps {
+    exerciseId: string;
     name: string;
     details: string;
     reps: number;
     sets: number;
     lastWeight?: number;
-    image: ImageSourcePropType;
 }
 
-const Card = ({ name, details, reps, sets, lastWeight, image }: CardProps) => {
+const Card = ({ exerciseId, name, details, reps, sets, lastWeight }: CardProps) => {
+    const router = useRouter();
+
+    const handlePress = () => {
+        router.push({
+            pathname: '/(modal)/modal',
+            params: {
+                exerciseId,
+                exerciseName: name,
+                details,
+                reps: reps.toString(),
+                sets: sets.toString(),
+                lastWeight: lastWeight?.toString() || '0',
+            }
+        });
+    };
+
     return (
-        <TouchableOpacity style={styles.card}>
-            {/* Immagine di sfondo */}
+        <TouchableOpacity
+            style={styles.card}
+            onPress={handlePress}
+            activeOpacity={0.9}
+        >
+            {/* Immagine di sfondo - sempre logo.png */}
             <Image
-                source={image}
+                source={require('@/assets/images/logo.png')}
                 style={styles.image}
                 resizeMode="cover"
             />
@@ -35,10 +56,12 @@ const Card = ({ name, details, reps, sets, lastWeight, image }: CardProps) => {
 
                 {/* Info: reps/sets e ultimo peso */}
                 <View style={styles.infoContainer}>
-                    <Text style={styles.info}>
-                        {sets}x{reps}/{sets * reps}
-                    </Text>
-                    {lastWeight && (
+                    {sets > 0 && reps > 0 && (
+                        <Text style={styles.info}>
+                            {sets}x{reps}/{sets * reps}
+                        </Text>
+                    )}
+                    {lastWeight && lastWeight > 0 && (
                         <Text style={styles.info}>
                             Last Weight: {lastWeight}
                         </Text>
@@ -77,7 +100,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        padding: Spacing.md + 4, // ~20px
+        padding: Spacing.md + 4,
     },
     title: {
         fontSize: FontSizes['2xl'],
